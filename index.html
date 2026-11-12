@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <script src="/assets/js/mirror.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vellour — визуалы для Minecraft</title>
+  <meta name="description" content="Vellour — клиент визуалов для Minecraft 1.21.4 на Fabric: небо, погода, свечение игроков, руки и меню. Все визуалы бесплатны.">
+  <meta name="theme-color" content="#05070a">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+  <meta property="og:title" content="Vellour — визуалы для Minecraft">
+  <meta property="og:description" content="Небо, погода, свечение игроков, руки и меню. Все визуалы бесплатны.">
+  <meta property="og:image" content="https://vellour.github.io/assets/img/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preload" as="image" href="/assets/img/scenes/dawn-b.webp" imagesrcset="/assets/img/scenes/dawn-b-m.webp 1280w, /assets/img/scenes/dawn-b.webp 1920w" imagesizes="100vw" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <link rel="stylesheet" href="/assets/css/landing.css">
+  <link rel="stylesheet" href="/assets/css/gui-demo.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="/"><img src="/assets/img/mark.svg" alt="">Vellour</a>
+      <nav class="nav-links">
+        <a href="#inside">Что внутри</a>
+        <a href="#menu">Меню</a>
+        <a href="#services">Поддержать</a>
+        <a href="#start">Старт</a>
+        <a href="#faq">FAQ</a>
+        <a href="/configs">Конфиги</a>
+      </nav>
+      <div class="nav-right">
+        <a class="btn btn-ghost" href="/login">Войти</a>
+        <a class="btn btn-white" href="/register#register">Создать аккаунт</a>
+      </div>
+      <button class="nav-burger" aria-label="Меню"><span></span><span></span></button>
+    </div>
+  </header>
+
+  <!-- ================= HERO: one frame, two pictures ================= -->
+  <section class="hero" id="top" aria-label="Сравнение: обычный Minecraft и Minecraft с Vellour">
+    <div class="cmp" id="cmp" style="--pos:38">
+      <div class="cmp-layer cmp-base">
+        <img id="img-a" src="/assets/img/scenes/dawn-a.webp" srcset="/assets/img/scenes/dawn-a-m.webp 1280w, /assets/img/scenes/dawn-a.webp 1920w" sizes="100vw" width="1920" height="1080" alt="Обычный Minecraft: рассвет над лесом и снежной горой" fetchpriority="high" draggable="false">
+        <canvas class="fx" aria-hidden="true"></canvas>
+      </div>
+      <div class="cmp-layer cmp-top">
+        <img id="img-b" src="/assets/img/scenes/dawn-b.webp" srcset="/assets/img/scenes/dawn-b-m.webp 1280w, /assets/img/scenes/dawn-b.webp 1920w" sizes="100vw" width="1920" height="1080" alt="Тот же рассвет с Vellour: лучи солнца, тёплый свет, туман и падающие лепестки" fetchpriority="high" draggable="false">
+        <canvas class="fx" aria-hidden="true"></canvas>
+        <canvas class="particles" aria-hidden="true"></canvas>
+      </div>
+      <span class="cmp-line" aria-hidden="true"></span>
+      <button class="cmp-knob" id="cmp-knob" type="button" role="slider" aria-label="Граница между обычным Minecraft и Vellour" aria-valuemin="0" aria-valuemax="100" aria-valuenow="38" aria-orientation="horizontal"><span class="cmp-hint" id="cmp-hint">Потяни</span></button>
+      <span class="cmp-tag cmp-tag-a">Обычный Minecraft</span>
+      <span class="cmp-tag cmp-tag-b">С Vellour</span>
+    </div>
+
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <h1>Тот же Minecraft.<br>Другая картинка.</h1>
+        <p class="hero-sub">Vellour меняет небо, погоду, свечение игроков, руки и меню. Больше 70 модулей, и все визуалы бесплатны.</p>
+        <div class="hero-actions">
+          <a class="btn btn-white btn-lg" href="#" data-download>Скачать лаунчер</a>
+          <a class="btn btn-glass btn-lg" href="#inside">Что внутри</a>
+        </div>
+        <p class="hero-fine" id="hero-fine">Для Windows 10 и 11. Minecraft 1.21.4 на Fabric, лаунчер ставит всё сам.</p>
+      </div>
+      <div class="scene-pick" role="tablist" aria-label="Сцена для сравнения">
+        <button class="scene on" role="tab" aria-selected="true" data-scene="0"><img src="/assets/img/scenes/dawn-t.webp" alt="" width="96" height="54"><span>Рассвет</span></button>
+        <button class="scene" role="tab" aria-selected="false" data-scene="1"><img src="/assets/img/scenes/night-t.webp" alt="" width="96" height="54" loading="lazy"><span>Ночь</span></button>
+        <button class="scene" role="tab" aria-selected="false" data-scene="2"><img src="/assets/img/scenes/snow-t.webp" alt="" width="96" height="54" loading="lazy"><span>Снегопад</span></button>
+        <p class="scene-mods" id="scene-mods" aria-live="polite">Включено: Atmosphere, ColorPlus, Weather FX с лепестками</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= INSIDE ================= -->
+  <section class="section" id="inside">
+    <div class="wrap split">
+      <div class="split-head">
+        <h2 class="h2">Все визуалы бесплатны</h2>
+        <p class="lead">Небо, погода, игроки, руки, картинка, интерфейс: всё, что меняет вид игры, открыто каждому и навсегда. Платным бывает только то, что мы делаем для тебя.</p>
+        <a class="btn btn-white" href="#" data-download>Скачать лаунчер</a>
+      </div>
+      <dl class="index">
+        <div><dt>Мир</dt><dd><span>Shader Sky</span><span>Atmosphere</span><span>Weather FX</span><span>World Cubes</span><span>Particles</span><span>Block Overlay</span><span>Fullbright</span><span>No Fluid</span></dd></div>
+        <div><dt>Игроки</dt><dd><span>ShaderPlayer</span><span>HitGhost</span><span>Hit Slash</span><span>Hit Particles</span><span>Hit Color</span><span>Attack Effect</span><span>Kill Effect</span><span>Jump Circle</span><span>Jump Cube</span><span>Jump Effect</span><span>ChinaHat</span><span>Trails</span><span>VellourSkin</span></dd></div>
+        <div><dt>Руки и предметы</dt><dd><span>Shader Hands</span><span>View Model</span><span>SwingAnimation</span><span>Animations</span><span>Item Physics</span><span>Enchant Glint</span><span>Shulker Preview</span></dd></div>
+        <div><dt>Картинка</dt><dd><span>ColorPlus</span><span>MotionBlur</span><span>Zoom</span><span>Mouse Particles</span></dd></div>
+        <div><dt>Бой</dt><dd><span>Prediction</span><span>Projectile Trails</span><span>Totem Tracker</span><span>Mace Indicator</span><span>Hit Range</span><span>HitBox Customizer</span><span>Health Indicator</span><span>Cooldowns</span><span>PvPHelper</span><span>Svetoch</span></dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ================= FRAMES from the game ================= -->
+  <section class="section" id="frames">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="h2">Свежее в клиенте</h2>
+        <p class="lead">Три модуля из последнего обновления. Все кадры сняты в самой игре.</p>
+      </div>
+
+      <article class="story story-wide">
+        <div class="strip strip-4">
+          <figure><img src="/assets/img/frames/snow-1.webp" alt="Луг без снега" loading="lazy" width="640" height="480"></figure>
+          <figure><img src="/assets/img/frames/snow-2.webp" alt="Снег лежит редкими белыми пикселями" loading="lazy" width="640" height="480"></figure>
+          <figure><img src="/assets/img/frames/snow-3.webp" alt="Снега больше, трава ещё видна" loading="lazy" width="640" height="480"></figure>
+          <figure><img src="/assets/img/frames/snow-4.webp" alt="Земля почти целиком белая" loading="lazy" width="640" height="480"></figure>
+        </div>
+        <div class="story-text">
+          <h3>Снег на блоках</h3>
+          <p class="story-mod">Weather FX</p>
+          <p>Снег ложится на блоки по одному пикселю, как в метель: сначала редкие точки, потом пятна, потом сплошной покров. Идёт вместе со снегопадом или всегда, наметается на стены против ветра и тает под дождём.</p>
+        </div>
+      </article>
+
+      <div class="story-pair">
+        <article class="story">
+          <div class="strip strip-3">
+            <figure><img src="/assets/img/frames/ghost-1.webp" alt="Удар: призрак ещё в теле игрока" loading="lazy" width="640" height="480"></figure>
+            <figure><img src="/assets/img/frames/ghost-2.webp" alt="Призрак отделяется от игрока" loading="lazy" width="640" height="480"></figure>
+            <figure><img src="/assets/img/frames/ghost-3.webp" alt="Призрак улетает вверх и тает" loading="lazy" width="640" height="480"></figure>
+          </div>
+          <div class="story-text">
+            <h3>Призрак при ударе</h3>
+            <p class="story-mod">HitGhost</p>
+            <p>Из ударенного игрока вылетает полупрозрачная копия его модели, в его собственном скине. Она уходит вверх и в сторону и оставляет след.</p>
+          </div>
+        </article>
+        <article class="story">
+          <div class="strip strip-1">
+            <figure><img src="/assets/img/frames/frost-1.webp" alt="Игрок в ледяных кристаллах ночью" loading="lazy" width="640" height="480"></figure>
+          </div>
+          <div class="story-text">
+            <h3>Иней</h3>
+            <p class="story-mod">ShaderPlayer</p>
+            <p>Ледяные кристаллы вокруг игрока, одни растут дальше других, а часть вспыхивает белым. Один из восьми стилей свечения.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LIVE CLICKGUI ================= -->
+  <section class="section gui-section" id="menu">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="h2">Меню из игры, прямо здесь</h2>
+        <p class="lead">Это рабочая копия ClickGUI: включай модули, раскрывай настройки, тяни ползунки, ставь бинды и ищи через <kbd class="kbd">Ctrl</kbd> <kbd class="kbd">K</kbd>. В игре меню открывается на <kbd class="kbd">Right Shift</kbd>.</p>
+      </div>
+      <div class="gui-wrap">
+        <div class="gui" id="gui-app">
+          <aside class="g-side">
+            <div class="g-brand"><img src="/assets/img/mark.svg" alt=""><b>Vellour</b><span>v1.5</span></div>
+            <div class="g-sec">Категории</div>
+            <div class="g-nav" id="g-cats"></div>
+            <div class="g-sec">Настройки</div>
+            <div class="g-nav" id="g-tools"></div>
+            <div class="g-fill"></div>
+            <div class="g-nav">
+              <button data-cat="client"><i class="gi gi-gear"></i>Параметры</button>
+              <button data-focus-search><i class="gi gi-search"></i>Поиск</button>
+            </div>
+            <div class="g-user"><div class="g-ava">S</div><div><b>Shykoe</b><span>Vellour Visuals</span></div></div>
+          </aside>
+          <main class="g-main">
+            <div class="g-top">
+              <div class="g-chip"><i class="gi" id="g-chip-icon"></i><b id="g-chip-title">Все</b></div>
+              <label class="g-search"><i class="gi gi-search"></i><input id="g-search" placeholder="Поиск модулей" autocomplete="off" spellcheck="false"><span>^K</span></label>
+              <div class="g-actions">
+                <div class="g-pill"><button title="Косметика" data-tool="cosmetics"><i class="gi gi-shirt"></i></button><button title="Избранное" id="g-fav-only"><i class="gi gi-star"></i></button></div>
+                <button class="g-btn" title="Сбросить" id="g-reset"><i class="gi gi-x"></i></button>
+              </div>
+            </div>
+            <div class="g-content" id="g-content"></div>
+          </main>
+        </div>
+      </div>
+      <p class="gui-note">ЛКМ по карточке открывает настройки. Переключатель включает и выключает модуль, звезда добавляет в избранное, плашка None задаёт бинд (Esc снимает его).</p>
+    </div>
+  </section>
+
+  <!-- ================= SUPPORT ================= -->
+  <section class="section" id="services">
+    <div class="wrap split split-rev">
+      <div>
+        <div class="section-head">
+          <h2 class="h2">Всё бесплатно</h2>
+          <p class="lead">Ни тарифов, ни подписок, ни закрытых модулей. Визуалы, косметика, эмоции, граффити, облачные конфиги, макросы и скриншоты убийств доступны каждому. Если хочешь помочь проекту, вот что можно взять за Telegram-звёзды.</p>
+        </div>
+        <h3 class="ledger-label">Поддержать проект</h3>
+        <ul class="ledger">
+          <li><div><b>Значок «Поддержал проект»</b><p>Сердце рядом с твоим ником в игре. Его видят все игроки с Vellour. Навсегда.</p></div><span class="tier" data-svc-price="supporter">100 ⭐</span></li>
+          <li><div><b>Своя надпись у ника</b><p>Личная надпись и цвет рядом с ником. Сделать такую самому нельзя: текст проверяет и вносит владелец.</p></div><span class="tier" data-svc-price="nametag">250 ⭐</span></li>
+          <li><div><b>Своя идея</b><p>Опиши, что хочешь увидеть в клиенте, и идею реализует владелец. Платишь один раз за одну идею.</p></div><span class="tier" data-svc-price="idea">300 ⭐</span></li>
+        </ul>
+        <p class="ledger-cta"><a class="btn btn-glass" href="/profile#services">Поддержать проект</a></p>
+      </div>
+      <aside class="plans" aria-label="Что входит">
+        <div class="plan">
+          <div class="plan-top"><b>Vellour</b><span>0 ⭐</span></div>
+          <p>Все визуалы и утилиты, ClickGUI, HUD, косметика, эмоции, граффити, облачные конфиги, макросы, аккаунт с 2FA. Без ограничений и без срока.</p>
+          <a class="btn btn-white" href="/register#register">Создать аккаунт</a>
+        </div>
+        <p class="plans-note">Оплата необязательна. Звёзды идут на развитие клиента, значок и надпись остаются у ника навсегда.</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ================= START ================= -->
+  <section class="section" id="start">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="h2">Три шага до игры</h2>
+      </div>
+      <ol class="steps">
+        <li><span class="step-n">1</span><h3>Скачай лаунчер</h3><p>Один файл. Java, Minecraft, Fabric и сам мод он скачает и настроит сам.</p></li>
+        <li><span class="step-n">2</span><h3>Создай аккаунт</h3><p>Логин, пароль и подтверждение через почту или Telegram. Можно прямо здесь или в лаунчере.</p></li>
+        <li><span class="step-n">3</span><h3>Нажми Play</h3><p>Игра запустится с Vellour. Меню открывается на Right Shift.</p></li>
+      </ol>
+      <div class="download" id="download">
+        <div class="dl-text">
+          <h3>Vellour Launcher</h3>
+          <p>Windows 10 и 11, Minecraft 1.21.4, Fabric. Мод обновляется сам при каждом запуске.</p>
+        </div>
+        <div class="dl-actions">
+          <a class="btn btn-white btn-lg" href="#" data-download>Скачать для Windows</a>
+          <a class="btn btn-glass btn-lg" href="/register#register">Создать аккаунт</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FAQ ================= -->
+  <section class="section" id="faq">
+    <div class="wrap faq-wrap">
+      <div class="section-head">
+        <h2 class="h2">Частые вопросы</h2>
+        <p class="lead">Не нашёл ответ? Напиши нашему Telegram-боту из профиля.</p>
+      </div>
+      <div class="faq">
+        <details><summary>Это бесплатно?</summary><p>Да, всё: визуалы, косметика, эмоции, граффити, облачные конфиги, макросы, скриншоты убийств и статистика сессии. Тарифов нет. Проект можно просто поддержать за Telegram-звёзды: значок у ника, своя надпись у ника или одна своя идея.</p></details>
+        <details><summary>Как поддержать проект звёздами?</summary><p>Профиль → «Поддержать» → выбери услугу. Откроется оплата в Telegram, после неё значок, надпись или идея включатся сами. Ещё можно написать боту /shop.</p></details>
+        <details><summary>Какие версии Minecraft поддерживаются?</summary><p>Minecraft Java 1.21.4 на Fabric. Лаунчер сам скачает нужную версию, Fabric и Fabric API.</p></details>
+        <details><summary>Зачем почта или Telegram при регистрации?</summary><p>Чтобы ты мог восстановить пароль и чтобы никто не наделал фейковых аккаунтов. Привязки и 2FA настраиваются в профиле.</p></details>
+        <details><summary>Я сменил компьютер — как войти?</summary><p>Аккаунт привязан к ПК. Зайди в профиль на сайте → «Безопасность» → «Сбросить привязку к ПК». Следующий вход в лаунчер привяжет новый компьютер. Сбрасывать можно раз в 7 дней.</p></details>
+        <details><summary>Видят ли другие мою косметику?</summary><p>Да, все игроки с Vellour на том же сервере видят твои крылья, шапки, питомцев, эмоции и граффити.</p></details>
+        <details><summary>Меню не открывается на Right Shift</summary><p>Убедись, что запускаешь игру через лаунчер Vellour: он сам кладёт мод в папку mods. Если ставишь мод вручную, нужен Fabric Loader 0.18.4+ и Fabric API.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <a class="brand" href="/"><img src="/assets/img/mark.svg" alt="">Vellour</a>
+      <span>© <span id="year"></span> Vellour Visuals</span>
+      <div class="links"><a href="#menu">Меню</a><a href="#faq">FAQ</a><a href="/configs">Конфиги</a><a href="/profile">Профиль</a></div>
+      <p class="legal">Vellour не связан с Mojang и Microsoft. Minecraft — торговая марка Mojang Synergies AB.</p>
+    </div>
+  </footer>
+
+  <script src="/assets/js/common.js"></script>
+  <script src="/assets/js/gui-demo.js"></script>
+  <script src="/assets/js/landing.js"></script>
+</body>
+</html>

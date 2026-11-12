@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <script src="/assets/js/mirror.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Конфиги — Vellour</title>
+  <meta name="description" content="Бесплатные конфиги VellourVisuals от игроков. Каждый проверен администрацией.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <style>
+    .cs-wrap { max-width: 1120px; margin: 0 auto; padding: 120px 20px 80px; }
+    .cs-head h1 { font-size: clamp(34px, 5vw, 56px); line-height: 1.05; margin: 0; }
+    .cs-head p { color: var(--muted); max-width: 620px; line-height: 1.6; margin: 14px 0 0; }
+    .cs-bar { display: flex; flex-wrap: wrap; gap: 10px; margin: 28px 0 22px; align-items: center; }
+    .cs-bar input { flex: 1; min-width: 220px; height: 44px; border-radius: 12px; border: 1px solid #222225; background: #0d0d0f; color: #fff; padding: 0 14px; font: inherit; }
+    .cs-seg { display: inline-flex; gap: 4px; padding: 4px; background: #0d0d0f; border: 1px solid #1d1d20; border-radius: 12px; }
+    .cs-seg button { padding: 8px 14px; border-radius: 9px; color: var(--muted); background: none; border: 0; font: inherit; cursor: pointer; }
+    .cs-seg button.on { background: #f2f2f3; color: #000; }
+    .cs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+    .cs-card { background: #0b0b0d; border: 1px solid #1c1c1f; border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 10px; transition: border-color .2s, transform .2s; }
+    .cs-card:hover { border-color: #34343a; transform: translateY(-2px); }
+    .cs-card h3 { margin: 0; font-size: 19px; }
+    .cs-meta { color: var(--muted); font-size: 13px; display: flex; gap: 12px; flex-wrap: wrap; }
+    .cs-desc { color: #cfcfd4; font-size: 14px; line-height: 1.55; flex: 1; white-space: pre-wrap; }
+    .cs-tag { font-weight: 800; letter-spacing: .1em; color: #ffe08a; background: rgba(255, 224, 138, .12); padding: 1px 8px; border-radius: 6px; }
+    .cs-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .cs-tags span { font-size: 12px; padding: 3px 9px; border-radius: 7px; background: #17171a; color: #ffe08a; }
+    .cs-card .btn { justify-content: center; }
+    .cs-cmd { font-size: 13px; color: var(--muted); cursor: pointer; padding: 8px 10px; border-radius: 10px; background: #111114; }
+    .cs-cmd code { color: #fff; }
+    .cs-empty { color: var(--muted); padding: 40px 0; text-align: center; grid-column: 1 / -1; }
+    .cs-how { margin-top: 46px; padding: 24px; border-radius: 18px; background: #0b0b0d; border: 1px solid #1c1c1f; color: #cfcfd4; line-height: 1.7; }
+    .cs-how b { color: #fff; }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="/"><img src="/assets/img/mark.svg" alt="">Vellour</a>
+      <nav class="nav-links">
+        <a href="/">Главная</a>
+        <a href="/configs">Конфиги</a>
+      </nav>
+      <div class="nav-right">
+        <a class="btn btn-white" href="/profile#myconfigs">Выложить свой <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="cs-wrap">
+    <div class="cs-head">
+      <h1>Магазин конфигов</h1>
+      <p>Бесплатные настройки VellourVisuals от игроков. Каждый конфиг перед публикацией проверяет администрация — без мусора и подстав.</p>
+    </div>
+    <div class="cs-bar">
+      <input id="q" placeholder="Поиск: название, автор или тег" autocomplete="off">
+      <div class="cs-seg" id="sort"><button data-s="top" class="on">Популярные</button><button data-s="new">Новые</button></div>
+    </div>
+    <div class="cs-grid" id="grid"></div>
+    <div class="cs-how">
+      <b>Как поставить конфиг.</b> Проще всего — напиши в чате игры команду с карточки, например <code>.cfg store 12</code>: конфиг скачается и применится сам. Или скачай файл и положи его в папку
+      <code>%APPDATA%\.vellourvisuals\vellourvisuals\configs</code>, затем в игре открой меню (Right Shift) → «Конфиги» и загрузи его.<br>
+      <b>Как выложить свой.</b> Профиль → «Мои конфиги» → выбери файл .vellour. После проверки он появится здесь, а тебе придёт сообщение в Telegram.
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      const $ = s => document.querySelector(s);
+      const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+      let sort = 'top', timer;
+      async function load() {
+        const r = await fetch('/api/configs/list', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ q: $('#q').value, sort }) }).then(r => r.json()).catch(() => null);
+        if (!r || !r.ok) { $('#grid').innerHTML = '<div class="cs-empty">Не удалось загрузить список</div>'; return; }
+        $('#grid').innerHTML = r.configs.map(c => `<div class="cs-card">
+            <h3>${esc(c.name)}</h3>
+            <div class="cs-meta"><span>#${c.id}</span>${c.tag ? '<span class="cs-tag">' + esc(c.tag) + '</span>' : ''}<span>от ${esc(c.author)}</span><span>⬇ ${c.downloads}</span><span>${(c.size / 1024).toFixed(1)} КБ</span></div>
+            ${c.tags ? '<div class="cs-tags">' + c.tags.split(',').map(t => t.trim()).filter(Boolean).slice(0, 5).map(t => '<span>' + esc(t) + '</span>').join('') + '</div>' : ''}
+            <div class="cs-desc">${esc(c.description || 'Без описания')}</div>
+            <div class="cs-cmd" title="Нажми, чтобы скопировать" data-copy=".cfg store ${c.id}">В игре: <code>.cfg store ${c.id}</code></div>
+            <a class="btn btn-white" href="/configs/download/${c.id}">Скачать файл</a>
+          </div>`).join('') || '<div class="cs-empty">Пока пусто — стань первым, кто выложит конфиг</div>';
+      }
+      $('#q').addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(load, 250); });
+      $('#sort').addEventListener('click', e => { const b = e.target.closest('[data-s]'); if (!b) return; sort = b.dataset.s; $('#sort').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); load(); });
+      document.addEventListener('click', e => { const c = e.target.closest('[data-copy]'); if (c && navigator.clipboard) navigator.clipboard.writeText(c.dataset.copy).then(() => { c.innerHTML = 'Скопировано ✓'; setTimeout(load, 1200); }); });
+      load();
+    })();
+  </script>
+</body>
+</html>

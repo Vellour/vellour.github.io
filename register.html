@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <script src="/assets/js/mirror.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Вход — Vellour</title>
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <link rel="stylesheet" href="/assets/css/auth.css">
+</head>
+<body class="auth-page">
+  <a class="auth-back brand" href="/"><img src="/assets/img/mark.svg" alt="">Vellour</a>
+  <div class="auth-bg" aria-hidden="true"><img src="/assets/img/logo.svg" alt=""></div>
+  <div class="glow-bottom"></div>
+
+  <main class="auth-card">
+    <div class="auth-tabs" id="tabs">
+      <button data-view="login" class="on">Вход</button>
+      <button data-view="register">Регистрация</button>
+      <span class="auth-tab-ink"></span>
+    </div>
+
+    <!-- login -->
+    <form class="view" id="v-login" autocomplete="on">
+      <h1>С возвращением</h1>
+      <p class="sub">Войди в аккаунт Vellour</p>
+      <label class="lbl" for="l-login">Логин</label>
+      <input class="field" id="l-login" name="username" autocomplete="username" maxlength="16" spellcheck="false" required>
+      <label class="lbl" for="l-pass">Пароль</label>
+      <input class="field" id="l-pass" type="password" name="password" autocomplete="current-password" maxlength="64" required>
+      <div class="totp-box" id="l-totp-box" hidden>
+        <label class="lbl">Код из приложения-аутентификатора</label>
+        <div class="otp" id="l-totp"></div>
+      </div>
+      <div class="msg" id="l-msg"></div>
+      <button class="btn btn-white btn-lg wide" type="submit">Войти</button>
+      <div class="auth-links"><button type="button" data-view="recover">Забыли пароль?</button></div>
+    </form>
+
+    <!-- register -->
+    <form class="view" id="v-register" hidden autocomplete="off">
+      <h1>Создать аккаунт</h1>
+      <p class="sub">Логин станет твоим ником в игре</p>
+      <label class="lbl" for="r-login">Логин</label>
+      <input class="field" id="r-login" maxlength="16" spellcheck="false" placeholder="3–16 символов: латиница, цифры, _" required>
+      <div class="row2">
+        <div><label class="lbl" for="r-pass">Пароль</label><input class="field" id="r-pass" type="password" autocomplete="new-password" maxlength="64" required></div>
+        <div><label class="lbl" for="r-pass2">Повтори пароль</label><input class="field" id="r-pass2" type="password" autocomplete="new-password" maxlength="64" required></div>
+      </div>
+      <label class="lbl">Подтверждение</label>
+      <div class="seg" id="r-method">
+        <button type="button" data-m="email" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></svg>Почта</button>
+        <button type="button" data-m="telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.4 4.3L2.9 11.4c-1.3.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.9-1.4-1.5zM8.3 14.1l9.8-6.2c.5-.3.9-.1.5.2l-8.1 7.3-.3 3.4z"/></svg>Telegram</button>
+      </div>
+      <div id="r-email-box">
+        <label class="lbl" for="r-email" style="margin-top:14px">Почта</label>
+        <input class="field" id="r-email" type="email" autocomplete="email" placeholder="you@mail.ru">
+      </div>
+      <p class="hint" id="r-tg-hint" hidden>На следующем шаге откроется наш бот — нажми в нём «Start», и аккаунт создастся.</p>
+      <div class="msg" id="r-msg"></div>
+      <button class="btn btn-white btn-lg wide" type="submit">Продолжить <span class="arrow">→</span></button>
+      <p class="fine">Почта или Telegram нужны, чтобы восстановить пароль и защитить аккаунт.</p>
+    </form>
+
+    <!-- email code -->
+    <form class="view" id="v-email" hidden>
+      <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></svg></div>
+      <h1>Проверь почту</h1>
+      <p class="sub">Мы отправили код на <b id="e-to"></b></p>
+      <div class="otp" id="e-code"></div>
+      <div class="msg" id="e-msg"></div>
+      <button class="btn btn-white btn-lg wide" type="submit">Подтвердить</button>
+      <div class="auth-links"><button type="button" data-view="register">← Изменить данные</button></div>
+    </form>
+
+    <!-- telegram -->
+    <div class="view" id="v-tg" hidden>
+      <div class="step-icon tg"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.4 4.3L2.9 11.4c-1.3.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.9-1.4-1.5z"/></svg></div>
+      <h1>Подтверди в Telegram</h1>
+      <p class="sub">Открой нашего бота и нажми <b>Start</b> — аккаунт создастся автоматически.</p>
+      <a class="btn btn-white btn-lg wide" id="tg-open" href="#" target="_blank" rel="noopener">Открыть Telegram-бота</a>
+      <div class="waiting"><span class="spinner"></span><span id="tg-status">Ждём подтверждения…</span></div>
+      <div class="msg" id="t-msg"></div>
+      <div class="auth-links"><button type="button" data-view="register">← Назад</button></div>
+    </div>
+
+    <!-- recover -->
+    <form class="view" id="v-recover" hidden>
+      <h1>Восстановление</h1>
+      <p class="sub">Код придёт на привязанную почту и в Telegram</p>
+      <label class="lbl" for="rc-login">Логин</label>
+      <input class="field" id="rc-login" maxlength="16" spellcheck="false" required>
+      <div id="rc-step2" hidden>
+        <label class="lbl" style="margin-top:14px">Код</label>
+        <div class="otp" id="rc-code"></div>
+        <label class="lbl" for="rc-pass" style="margin-top:14px">Новый пароль</label>
+        <input class="field" id="rc-pass" type="password" autocomplete="new-password" maxlength="64">
+      </div>
+      <div class="msg" id="rc-msg"></div>
+      <button class="btn btn-white btn-lg wide" type="submit" id="rc-btn">Отправить код</button>
+      <div class="auth-links"><button type="button" data-view="login">← Ко входу</button></div>
+    </form>
+  </main>
+
+  <script src="/assets/js/common.js"></script>
+  <script src="/assets/js/auth.js"></script>
+</body>
+</html>

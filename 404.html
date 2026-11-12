@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <script src="/assets/js/mirror.js"></script>
+  <script>if (!/^\/u\/[A-Za-z0-9_]{3,16}\/?$/.test(location.pathname)) location.replace("/");</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Профиль — Vellour</title>
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <style>
+    .u-wrap { max-width: 860px; margin: 0 auto; padding: 110px 20px 80px; }
+    .u-card { background: #0b0b0d; border: 1px solid #1c1c1f; border-radius: 24px; overflow: hidden; }
+    .u-banner { height: 220px; background: linear-gradient(120deg, #1a2d54, #dd083d 70%, #ffeeb5) center/cover; }
+    .u-body { padding: 0 28px 28px; }
+    .u-top { display: flex; align-items: flex-end; gap: 18px; margin-top: -54px; flex-wrap: wrap; }
+    .u-ava { width: 120px; height: 120px; border-radius: 30px; border: 6px solid #0b0b0d; background: #18181b center/cover; display: grid; place-items: center; font-size: 48px; font-weight: 800; flex: none; }
+    .u-name { flex: 1; min-width: 200px; padding-bottom: 6px; }
+    .u-name h1 { margin: 0; font-size: 34px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .chip { font-size: 12px; font-weight: 800; padding: 4px 9px; border-radius: 8px; background: #1b1b1e; letter-spacing: .04em; }
+    .chip.role { color: #fff; }
+    .u-status { color: #cfcfd4; font-size: 16px; margin-top: 6px; }
+    .u-on { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; color: var(--muted); margin-top: 10px; }
+    .u-on i { width: 9px; height: 9px; border-radius: 50%; background: #4b4b50; } .u-on i.on { background: #5fd38d; box-shadow: 0 0 10px #5fd38d; }
+    .u-socials { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+    .u-socials a { padding: 9px 14px; border-radius: 11px; background: #151517; border: 1px solid #222225; font-size: 14px; }
+    .u-socials a:hover { border-color: #3a3a40; }
+    .u-meta { color: #6f6f75; font-size: 13px; margin-top: 18px; }
+    .u-act { margin-left: auto; padding-bottom: 8px; }
+    .u-missing { text-align: center; color: var(--muted); padding: 120px 0; }
+  </style>
+</head>
+<body>
+  <header class="nav"><div class="nav-inner">
+    <a class="brand" href="/"><img src="/assets/img/mark.svg" alt="">Vellour</a>
+    <nav class="nav-links"><a href="/">Главная</a><a href="/configs">Конфиги</a></nav>
+    <div class="nav-right"><a class="btn btn-white" href="/profile">Мой профиль</a></div>
+  </div></header>
+  <main class="u-wrap" id="root"></main>
+  <script>
+    (function () {
+      const root = document.getElementById('root');
+      const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+      const login = decodeURIComponent(location.pathname.split('/').pop());
+      const token = (() => { try { return localStorage.getItem('vellour_token'); } catch { return null; } })();
+      const LINKS = {
+        telegram: v => 'https://t.me/' + v, vk: v => /^https?:/.test(v) ? v : 'https://vk.com/' + v, discord: null,
+        youtube: v => /^https?:/.test(v) ? v : 'https://youtube.com/@' + v, tiktok: v => 'https://tiktok.com/@' + v, twitch: v => 'https://twitch.tv/' + v,
+      };
+      const NAMES = { telegram: 'Telegram', vk: 'VK', discord: 'Discord', youtube: 'YouTube', tiktok: 'TikTok', twitch: 'Twitch' };
+      async function call(path, body) {
+        const h = { 'Content-Type': 'application/json' };
+        if (token) h.Authorization = 'Bearer ' + token;
+        return fetch(path, { method: 'POST', headers: h, body: JSON.stringify(body || {}) }).then(r => r.json()).catch(() => ({ ok: false }));
+      }
+      async function render() {
+        const r = token ? await call('/api/profile/get', { login }) : await call('/api/profile/public', { login });
+        if (!r.ok) { root.innerHTML = '<div class="u-missing">Игрок «' + esc(login) + '» не найден</div>'; return; }
+        const p = r.profile;
+        document.title = p.login + ' — Vellour';
+        const socials = Object.entries(p.socials || {}).map(([k, v]) => LINKS[k]
+          ? '<a href="' + esc(LINKS[k](v)) + '" target="_blank" rel="noopener nofollow">' + NAMES[k] + ' · ' + esc(v) + '</a>'
+          : '<a>' + NAMES[k] + ' · ' + esc(v) + '</a>').join('');
+        const fr = !token || p.self ? '' : p.friend === 'friends' ? '<span class="chip">Вы друзья</span>'
+          : p.friend === 'sent' ? '<span class="chip">Заявка отправлена</span>'
+          : '<button class="btn btn-white" id="add">' + (p.friend === 'incoming' ? 'Принять заявку' : 'Добавить в друзья') + '</button>';
+        root.innerHTML = '<div class="u-card"><div class="u-banner" style="' + (p.banner ? 'background-image:url(' + p.banner + ')' : '') + '"></div><div class="u-body">'
+          + '<div class="u-top"><div class="u-ava" style="' + (p.avatar ? 'background-image:url(' + p.avatar + ')' : '') + '">' + (p.avatar ? '' : esc(p.login[0].toUpperCase())) + '</div>'
+          + '<div class="u-name"><h1>' + esc(p.login) + '' + (p.role !== 'User' ? '<span class="chip role">' + esc(p.role) + '</span>' : '') + '</h1>'
+          + (p.status ? '<div class="u-status">' + esc(p.status) + '</div>' : '')
+          + '<div class="u-on"><i class="' + (p.online ? 'on' : '') + '"></i>' + (p.online ? 'В игре' + (p.server ? ' · ' + esc(p.server) : '') : 'Не в сети') + '</div></div>'
+          + '<div class="u-act">' + fr + '</div></div>'
+          + (socials ? '<div class="u-socials">' + socials + '</div>' : '')
+          + '<div class="u-meta">С нами с ' + new Date(p.createdAt).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }) + '</div></div></div>';
+        const add = document.getElementById('add');
+        if (add) add.onclick = async () => { await call('/api/friends/request', { login: p.login }); render(); };
+      }
+      render();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <script src="/assets/js/mirror.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Профиль — Vellour</title>
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <link rel="stylesheet" href="/assets/css/profile.css">
+  <script src="/assets/js/qrcode.min.js" defer></script>
+</head>
+<body class="profile-page">
+  <div class="glow-bottom"></div>
+  <div class="p-shell" id="shell" hidden>
+    <aside class="p-side">
+      <a class="brand" href="/"><img src="/assets/img/mark.svg" alt="">Vellour</a>
+      <div class="p-sec">Аккаунт</div>
+      <nav class="p-nav">
+        <button data-tab="overview" class="on"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></svg>Обзор</button>
+        <button data-tab="me"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>Мой профиль</button>
+        <button data-tab="friends"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 19.5c.8-3.3 3.4-5 6.5-5s5.7 1.7 6.5 5"/><path d="M16 4.8a3.4 3.4 0 0 1 0 6.4M18 14.7c2 .7 3.2 2.3 3.6 4.8"/></svg>Друзья</button>
+        <button data-tab="chat"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg>Чат</button>
+        <button data-tab="security"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.3 8.3-8 9-4.7-.7-8-4.5-8-9V6z"/></svg>Безопасность</button>
+        <button data-tab="links"><svg viewBox="0 0 24 24"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1"/></svg>Привязки</button>
+        <button data-tab="services"><svg viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.1a4.3 4.3 0 0 1 7.5 2.7C19.5 15.4 12 20 12 20z"/></svg>Поддержать</button>
+        <button data-tab="bonus"><svg viewBox="0 0 24 24"><path d="M5 4v16M5 5h11l-2 3.5 2 3.5H5"/></svg>Задания</button>
+        <button data-tab="support"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg>Поддержка</button>
+        <button data-tab="myconfigs"><svg viewBox="0 0 24 24"><path d="M4 7a2 2 0 0 1 2-2h4l2 2h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M12 10v6M9 13l3-3 3 3"/></svg>Мои конфиги</button>
+        <button data-tab="download"><svg viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 19.5h14"/></svg>Загрузка</button>
+      </nav>
+      <div class="p-fill"></div>
+      <nav class="p-nav">
+        <a href="/admin" id="admin-link" hidden><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.3 8.3-8 9-4.7-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>Админ-панель</a>
+        <a href="/"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>На сайт</a>
+        <button id="logout"><svg viewBox="0 0 24 24"><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4"/><path d="M10 8l-4 4 4 4M6 12h10"/></svg>Выйти</button>
+      </nav>
+      <div class="p-user"><div class="p-ava" id="u-letter">V</div><div><b id="u-login">…</b><span id="u-role">User</span></div></div>
+    </aside>
+
+    <main class="p-main">
+      <!-- overview -->
+      <section class="tab" id="t-overview">
+        <h1 class="p-title">Привет, <span id="o-name"></span></h1>
+        <p class="p-sub">Здесь настраивается всё, что связано с аккаунтом Vellour.</p>
+        <div class="stats">
+          <div class="stat card"><span>Роль</span><b id="o-role">Игрок</b></div>
+          <div class="stat card"><span>Аккаунт создан</span><b id="o-created">—</b></div>
+          <div class="stat card"><span>Последний вход</span><b id="o-last">—</b></div>
+        </div>
+        <div class="checklist card">
+          <h3>Защита аккаунта</h3>
+          <div class="check" id="c-contact"><i></i><div><b>Контакт для восстановления</b><span>Почта или Telegram</span></div><button data-tab="links" class="btn btn-dark">Открыть</button></div>
+          <div class="check" id="c-both"><i></i><div><b>Почта и Telegram вместе</b><span>Два способа восстановить доступ</span></div><button data-tab="links" class="btn btn-dark">Привязать</button></div>
+          <div class="check" id="c-2fa"><i></i><div><b>Двухфакторная защита</b><span>Код из приложения при каждом входе</span></div><button data-tab="security" class="btn btn-dark">Настроить</button></div>
+          <div class="check" id="c-pc"><i></i><div><b>Привязка к ПК</b><span id="c-pc-text">Войди через лаунчер, чтобы привязать компьютер</span></div><button data-tab="download" class="btn btn-dark">Лаунчер</button></div>
+        </div>
+      </section>
+
+      <!-- security -->
+      <section class="tab" id="t-security" hidden>
+        <h1 class="p-title">Безопасность</h1>
+        <p class="p-sub">Пароль, двухфакторная защита и привязка к компьютеру.</p>
+
+        <div class="block card">
+          <div class="block-head"><div><h3>Двухфакторная аутентификация</h3><p>Google Authenticator, Aegis, 2FAS, Яндекс Ключ и другие приложения.</p></div><span class="pill" id="tfa-pill">Выключена</span></div>
+          <div id="tfa-off">
+            <button class="btn btn-white" id="tfa-start">Включить 2FA</button>
+            <div class="tfa-setup" id="tfa-setup" hidden>
+              <div class="qr" id="tfa-qr"></div>
+              <div class="tfa-steps">
+                <p><b>1.</b> Отсканируй QR-код в приложении-аутентификаторе.</p>
+                <p class="secret-line">Или введи ключ вручную: <code id="tfa-secret"></code> <button class="copy" id="tfa-copy">Копировать</button></p>
+                <p><b>2.</b> Введи 6 цифр из приложения:</p>
+                <div class="otp" id="tfa-code"></div>
+                <div class="msg" id="tfa-msg"></div>
+              </div>
+            </div>
+          </div>
+          <div id="tfa-on" hidden>
+            <p class="note">2FA включена. Чтобы выключить, введи текущий код из приложения.</p>
+            <div class="otp narrow" id="tfa-off-code"></div>
+            <div class="msg" id="tfa-off-msg"></div>
+          </div>
+        </div>
+
+        <form class="block card" id="pw-form">
+          <div class="block-head"><div><h3>Смена пароля</h3><p>После смены остальные устройства выйдут из аккаунта.</p></div></div>
+          <div class="grid2">
+            <div><label class="lbl">Текущий пароль</label><input class="field" type="password" id="pw-old" autocomplete="current-password" required></div>
+            <div><label class="lbl">Новый пароль</label><input class="field" type="password" id="pw-new" autocomplete="new-password" minlength="6" required></div>
+          </div>
+          <div class="need-2fa" hidden><label class="lbl">Код 2FA</label><input class="field" id="pw-totp" inputmode="numeric" maxlength="6" placeholder="000000"></div>
+          <div class="msg" id="pw-msg"></div>
+          <button class="btn btn-white" type="submit">Сменить пароль</button>
+        </form>
+
+        <form class="block card" id="hw-form">
+          <div class="block-head"><div><h3>Привязка к компьютеру</h3><p>Аккаунт работает только на одном ПК. Сменил компьютер — сбрось привязку, и следующий вход в лаунчер привяжет новый. Не чаще раза в 7 дней.</p></div><span class="pill" id="hw-pill">—</span></div>
+          <div class="grid2">
+            <div><label class="lbl">Пароль</label><input class="field" type="password" id="hw-pass" autocomplete="current-password" required></div>
+            <div class="need-2fa" hidden><label class="lbl">Код 2FA</label><input class="field" id="hw-totp" inputmode="numeric" maxlength="6" placeholder="000000"></div>
+          </div>
+          <div class="msg" id="hw-msg"></div>
+          <button class="btn btn-dark" type="submit" id="hw-btn">Сбросить привязку к ПК</button>
+        </form>
+
+        <div class="block card">
+          <div class="block-head"><div><h3>Все устройства</h3><p>Выйти из аккаунта в лаунчере и на всех сайтах.</p></div></div>
+          <button class="btn btn-dark" id="logout-all">Выйти везде</button>
+        </div>
+      </section>
+
+      <!-- links -->
+      <section class="tab" id="t-links" hidden>
+        <h1 class="p-title">Привязки</h1>
+        <p class="p-sub">Через них восстанавливается пароль и приходят уведомления о безопасности. Хотя бы одна должна быть всегда.</p>
+
+        <div class="block card link-card">
+          <div class="link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></svg></div>
+          <div class="link-body">
+            <h3>Почта</h3>
+            <p id="em-state">Не привязана</p>
+            <form id="em-form" class="inline-form">
+              <input class="field" type="email" id="em-input" placeholder="you@mail.ru" autocomplete="email">
+              <button class="btn btn-white" type="submit" id="em-btn">Отправить код</button>
+            </form>
+            <div id="em-code-box" hidden><label class="lbl" style="margin-top:12px">Код из письма</label><div class="otp narrow" id="em-code"></div></div>
+            <div class="msg" id="em-msg"></div>
+          </div>
+          <button class="btn btn-dark unlink" id="em-remove" hidden>Отвязать</button>
+        </div>
+
+        <div class="block card link-card">
+          <div class="link-icon tg"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.4 4.3L2.9 11.4c-1.3.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.9-1.4-1.5z"/></svg></div>
+          <div class="link-body">
+            <h3>Telegram</h3>
+            <p id="tg-state">Не привязан</p>
+            <button class="btn btn-white" id="tg-link">Привязать Telegram</button>
+            <div class="waiting" id="tg-wait" hidden><span class="spinner"></span>Нажми «Start» в боте — ждём…</div>
+            <div class="msg" id="tg-msg"></div>
+          </div>
+          <button class="btn btn-dark unlink" id="tg-remove" hidden>Отвязать</button>
+        </div>
+      </section>
+
+      <!-- services that support the project -->
+      <section class="tab" id="t-services" hidden>
+        <h1 class="p-title">Поддержать проект</h1>
+        <p class="p-sub">Всё в Vellour бесплатно: тарифов нет и не будет. Это добровольная поддержка проекта: услуги за Telegram-звёзды идут на развитие клиента и оставляют след в игре: значок и надпись у твоего ника видят все игроки с Vellour.</p>
+
+        <div class="block card svc" id="svc-supporter">
+          <div class="plan-head"><h3>Значок «Поддержал проект»</h3><span class="pill" id="sup-pill">Не куплен</span></div>
+          <p class="muted-s">Сердце рядом с твоим ником в игре: у других игроков с Vellour и в списке игроков. Навсегда.</p>
+          <div class="plan-buy" data-svc="supporter"></div>
+        </div>
+
+        <div class="block card svc" id="svc-tag">
+          <div class="plan-head"><h3>Своя надпись у ника</h3><span class="pill" id="tag-pill">Не куплена</span></div>
+          <p class="muted-s">Твоя собственная надпись рядом с ником (до 16 символов, свой цвет). Сделать такую самому нельзя: текст проверяет владелец и вносит его на сервер. Навсегда, менять можно в любой момент.</p>
+          <div class="plan-buy" data-svc="nametag"></div>
+          <form class="svc-form" id="tag-form" hidden>
+            <div class="inline-form">
+              <input class="field" id="tag-text" maxlength="16" placeholder="Надпись, например: Легенда" autocomplete="off">
+              <input class="field tag-color" id="tag-color" maxlength="7" placeholder="Цвет FFC98A" autocomplete="off" spellcheck="false">
+              <button class="btn btn-white" type="submit">Отправить на проверку</button>
+            </div>
+            <div class="tag-preview" id="tag-preview"></div>
+          </form>
+          <div class="msg" id="tag-msg"></div>
+        </div>
+
+        <div class="block card svc" id="svc-idea">
+          <div class="plan-head"><h3>Своя идея</h3><span class="pill" id="idea-pill">Не куплена</span></div>
+          <p class="muted-s">Расскажи, что хочешь увидеть в клиенте: новый визуал, худ, функцию, конфиг. Идею реализует владелец, ответ придёт сюда и в Telegram.</p>
+          <div class="plan-buy" data-svc="idea"></div>
+          <form class="svc-form" id="idea-form" hidden>
+            <textarea class="field" id="idea-text" rows="5" maxlength="1800" placeholder="Опиши идею: что должно получиться, как выглядеть, на каком сервере нужно"></textarea>
+            <div class="sup-row"><span class="muted-s" id="idea-count">0 / 1800</span><button class="btn btn-white" type="submit">Отправить идею</button></div>
+          </form>
+          <div class="msg" id="idea-msg"></div>
+        </div>
+        <p class="fine-s">Оплата Telegram-звёздами в боте Vellour. Услуга включается сама после оплаты. Проблемы с оплатой: напиши в бота.</p>
+      </section>
+
+      <!-- daily tasks (there are no prizes any more: everything is free, these are just goals for the day) -->
+      <section class="tab" id="t-bonus" hidden>
+        <h1 class="p-title">Задания дня</h1>
+        <p class="p-sub">Три задания каждый день: время на серверах, удары, убийства. Награды больше нет, ведь всё в Vellour бесплатно: это просто цели на день.</p>
+        <div class="block card qs" id="q-box"><p class="muted-s">Загрузка…</p></div>
+      </section>
+
+      <!-- my profile -->
+      <section class="tab" id="t-me" hidden>
+        <h1 class="p-title">Мой профиль</h1>
+        <p class="p-sub">Как тебя видят другие: на сайте по ссылке <a id="me-link" target="_blank"></a>, а фраза показывается у ника в игре.</p>
+        <div class="pf-card card" id="pf-preview">
+          <div class="pf-banner" id="pf-banner"></div>
+          <div class="pf-body">
+            <div class="pf-ava" id="pf-ava"></div>
+            <div class="pf-names"><b id="pf-login"></b><span id="pf-status"></span></div>
+          </div>
+        </div>
+        <form class="block card pf-form" id="pf-form">
+          <div class="pf-row">
+            <label class="file-pick sm"><input type="file" id="pf-ava-file" accept="image/*"><span>Аватарка</span></label>
+            <label class="file-pick sm"><input type="file" id="pf-banner-file" accept="image/*"><span>Баннер</span></label>
+            <button class="btn btn-dark" type="button" id="pf-clear">Убрать картинки</button>
+          </div>
+          <input class="field" id="pf-status-in" maxlength="48" placeholder="Фраза у ника (до 48 символов)">
+          <div class="pf-socials">
+            <input class="field" data-soc="telegram" placeholder="Telegram (ник)">
+            <input class="field" data-soc="vk" placeholder="VK (ник или ссылка)">
+            <input class="field" data-soc="discord" placeholder="Discord">
+            <input class="field" data-soc="youtube" placeholder="YouTube (канал)">
+            <input class="field" data-soc="tiktok" placeholder="TikTok">
+            <input class="field" data-soc="twitch" placeholder="Twitch">
+          </div>
+          <button class="btn btn-white" type="submit">Сохранить профиль</button>
+          <div class="msg" id="pf-msg"></div>
+        </form>
+      </section>
+
+      <!-- friends -->
+      <section class="tab" id="t-friends" hidden>
+        <h1 class="p-title">Друзья</h1>
+        <p class="p-sub">Видно, кто из друзей сейчас в игре и на каком сервере. В игре друзьям можно писать: <code>.msg ник текст</code>.</p>
+        <form class="block card inline-form" id="fr-form"><input class="field" id="fr-login" placeholder="Логин игрока" maxlength="16"><button class="btn btn-white" type="submit">Добавить</button></form>
+        <div class="msg" id="fr-msg"></div>
+        <div id="fr-incoming"></div>
+        <div class="fr-list" id="fr-list"></div>
+      </section>
+
+      <!-- chat -->
+      <section class="tab" id="t-chat" hidden>
+        <h1 class="p-title">Чат</h1>
+        <p class="p-sub">Общий чат всех игроков Vellour и личные сообщения друзьям: фото, GIF, файлы, голосовые и стикеры. В игре — меню Vellour → «Чат» или сообщение с <code>@</code> в начале.</p>
+        <div class="ch-wrap card">
+          <div class="ch-side" id="ch-side"></div>
+          <div class="ch-main">
+            <div class="ch-log" id="ch-log"></div>
+            <div class="ch-status" id="ch-status" hidden></div>
+            <div class="ch-stickers" id="ch-stickers" hidden></div>
+            <form class="ch-send" id="ch-send">
+              <label class="ch-ico" title="Фото, GIF или файл (до 25 МБ)">📎<input type="file" id="ch-file" multiple hidden></label>
+              <button class="ch-ico" type="button" id="ch-st-btn" title="Стикеры">😺</button>
+              <input class="field" id="ch-text" maxlength="500" placeholder="Сообщение… (Ctrl+V — вставить картинку)" autocomplete="off">
+              <button class="ch-ico" type="button" id="ch-mic" title="Голосовое (нажми, чтобы начать и закончить)">🎤</button>
+              <button class="btn btn-white" type="submit">➤</button>
+            </form>
+            <div class="ch-lightbox" id="ch-lightbox" hidden></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- support -->
+      <section class="tab" id="t-support" hidden>
+        <h1 class="p-title">Поддержка</h1>
+        <p class="p-sub">Нашёл баг, есть идея или что-то не работает — напиши. Ответ придёт сюда и в Telegram. В боте то же самое: <code>/bug</code>, <code>/idea</code>, <code>/problem</code> + текст.</p>
+        <form class="block card sup-form" id="sup-form">
+          <div class="sup-kinds">
+            <label><input type="radio" name="kind" value="bug" checked><span>🐞 Баг</span></label>
+            <label><input type="radio" name="kind" value="idea"><span>💡 Идея</span></label>
+            <label><input type="radio" name="kind" value="problem"><span>⚠️ Проблема</span></label>
+            <label><input type="radio" name="kind" value="other"><span>💬 Другое</span></label>
+          </div>
+          <textarea class="field" id="sup-text" rows="5" maxlength="2000" placeholder="Что случилось? Как повторить? Версия визуалов, сервер…"></textarea>
+          <div class="sup-row"><span class="muted-s" id="sup-count">0 / 2000</span><button class="btn btn-white" type="submit">Отправить</button></div>
+          <div class="msg" id="sup-msg"></div>
+        </form>
+        <h3 class="sub-title">Мои обращения</h3>
+        <div class="tk-list" id="sup-list"></div>
+      </section>
+
+      <!-- my configs -->
+      <section class="tab" id="t-myconfigs" hidden>
+        <h1 class="p-title">Мои конфиги</h1>
+        <p class="p-sub">Поделись своим конфигом в <a href="/configs">магазине конфигов</a>. Перед публикацией его проверяет администрация. Файл лежит в папке <code>%APPDATA%\.vellourvisuals\vellourvisuals\configs</code>. Ещё проще прямо из игры: <code>.cfg publish Имя ТЕГ</code>, а другу можно отправить командой <code>.cfg share ник Имя</code>.</p>
+        <form class="block card cfg-form" id="cfg-form">
+          <input class="field" id="cfg-name" maxlength="40" placeholder="Название, например «PvP чистый»">
+          <div class="tagrow"><input class="field" id="cfg-tag" maxlength="4" placeholder="ТЕГ" spellcheck="false" autocomplete="off" style="text-transform:uppercase;letter-spacing:.12em;max-width:140px"><span class="muted-s" id="cfg-tag-state">3-4 символа, латиница и цифры, уникальный у каждого конфига. Он будет стоять у ника у всех, кто поставит твой конфиг</span></div>
+          <input class="field" id="cfg-tags" maxlength="80" placeholder="Метки через запятую: pvp, fps, красиво">
+          <textarea class="field" id="cfg-desc" rows="3" maxlength="400" placeholder="Что в нём включено, для каких серверов"></textarea>
+          <label class="file-pick"><input type="file" id="cfg-file" accept=".vellour,.enough"><span id="cfg-file-name">Выбрать файл .vellour</span></label>
+          <button class="btn btn-white" type="submit">Отправить на проверку</button>
+          <div class="msg" id="cfg-msg"></div>
+        </form>
+        <div class="tk-list" id="cfg-list"></div>
+      </section>
+
+      <!-- download -->
+      <section class="tab" id="t-download" hidden>
+        <h1 class="p-title">Загрузка</h1>
+        <p class="p-sub">Лаунчер сам скачает Java, Minecraft 1.21.4, Fabric и мод Vellour.</p>
+        <div class="block card dl">
+          <img src="/assets/img/avatar.png" alt="" class="dl-ava">
+          <div><h3>Vellour Launcher</h3><p>Windows 10 / 11 · портативный .exe</p></div>
+          <a class="btn btn-white btn-lg" href="#" data-download>Скачать <span class="arrow">↓</span></a>
+        </div>
+        <div class="block card">
+          <h3 style="margin-bottom:12px">Как играть</h3>
+          <ol class="howto">
+            <li>Запусти <b>VellourLauncher.exe</b> и войди этим аккаунтом — компьютер привяжется автоматически.</li>
+            <li>Нажми <b>Play</b> — при первом запуске скачается всё нужное (пара минут).</li>
+            <li>В игре нажми <b>Right Shift</b>, чтобы открыть меню.</li>
+          </ol>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="p-loading" id="loading"><span class="spinner"></span></div>
+
+  <dialog class="modal" id="confirm">
+    <form method="dialog">
+      <h3 id="cf-title">Подтверждение</h3>
+      <p id="cf-text"></p>
+      <label class="lbl">Пароль</label>
+      <input class="field" type="password" id="cf-pass" autocomplete="current-password">
+      <div class="msg" id="cf-msg"></div>
+      <div class="modal-actions"><button class="btn btn-ghost" value="cancel" formnovalidate>Отмена</button><button class="btn btn-white" id="cf-ok" value="ok">Подтвердить</button></div>
+    </form>
+  </dialog>
+
+  <script src="/assets/js/common.js"></script>
+  <script src="/assets/js/profile.js"></script>
+  <script src="/assets/js/chat.js"></script>
+</body>
+</html>
