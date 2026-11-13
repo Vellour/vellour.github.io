@@ -1,7 +1,7 @@
 /* Vellour — shared site helpers: API calls, web session, nav, toasts, scroll reveal */
 (function () {
   // Link to the launcher download (upload VellourLauncher.exe to Yandex Disk / Google Drive / GitHub and paste the link here)
-  const DOWNLOAD_URL = 'https://github.com/Sh1ziy/VellourVisuals/releases/latest/download/VellourLauncher.exe';
+  const DOWNLOAD_URL = 'https://github.com/Vellour/VellourVisuals/releases/latest/download/VellourLauncher.exe';
 
   const store = {
     get(k) { try { return localStorage.getItem(k); } catch { return null; } },
